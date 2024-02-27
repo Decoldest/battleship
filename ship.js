@@ -8,14 +8,12 @@ let Ship = function (length) {
   };
   ship.hit = function () {
     if (!this.isSunk()) {
-    this.hitsNumber++;
+      this.hitsNumber++;
     }
   };
 
   return ship;
 };
 
-const newShip = Ship(5);
-console.table(newShip);
-
+module.exports = Ship;
 
