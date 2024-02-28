@@ -40,6 +40,7 @@ describe("Gameboard", () => {
     );
   });
 
+  //isValidCoordinate testing
   test("do not allow ship placement if invalid coordinate or length", () => {
     const gameboard = Gameboard(4);
 
@@ -51,6 +52,12 @@ describe("Gameboard", () => {
     expect(gameboard.placeShip(2, 4, 1, "vertical")).toEqual(false);
     //Out of bounds
     expect(gameboard.placeShip(2, 2, 4, "horizontal")).toEqual(false);
+  });
 
+  //coordinatesFree check 
+  test("ship cannot be placed where ship already exists", () => {
+    const gameboard = Gameboard(4);
+    gameboard.placeShip(1, 0, 2, "horizontal");
+    expect(gameboard.placeShip(0, 1, 2, "vertical")).toEqual(false);
   });
 });
