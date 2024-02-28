@@ -45,19 +45,37 @@ describe("Gameboard", () => {
     const gameboard = Gameboard(4);
 
     //Invalid x
-    expect(gameboard.placeShip(-1, 0, 1, "horizontal")).toEqual(false);
+    expect(gameboard.placeShip(-1, 0, 1, "horizontal")).toBe(false);
     //No length
-    expect(gameboard.placeShip(2, 0, 0, "vertical")).toEqual(false);
+    expect(gameboard.placeShip(2, 0, 0, "vertical")).toBe(false);
     //Invalid y
-    expect(gameboard.placeShip(2, 4, 1, "vertical")).toEqual(false);
+    expect(gameboard.placeShip(2, 4, 1, "vertical")).toBe(false);
     //Out of bounds
-    expect(gameboard.placeShip(2, 2, 4, "horizontal")).toEqual(false);
+    expect(gameboard.placeShip(2, 2, 4, "horizontal")).toBe(false);
   });
 
-  //coordinatesFree check 
+  //coordinatesFree check
   test("ship cannot be placed where ship already exists", () => {
     const gameboard = Gameboard(4);
     gameboard.placeShip(1, 0, 2, "horizontal");
-    expect(gameboard.placeShip(0, 1, 2, "vertical")).toEqual(false);
+    expect(gameboard.placeShip(0, 1, 2, "vertical")).toBe(false);
+  });
+
+  //Attacks on board
+  test("check if ship hit and take damage if true", () => {
+    const gameboard = Gameboard(4);
+    gameboard.placeShip(1, 1, 2, "horizontal");
+    //Missed shot
+    expect(gameboard.receiveAttack(2, 2)).toBe(false);
+    expect(gameboard.missedShots).toEqual([{ y: 2, x: 2, }]);
+    
+    //Hit check
+    gameboard.receiveAttack(1, 1);
+    expect(gameboard.board[1][1].hitsNumber).toBe(1);
+
+
+    gameboard.receiveAttack(1, 2);
+    expect(gameboard.areAllSunk()).toBe(true);
+
   });
 });

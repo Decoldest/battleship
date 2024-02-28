@@ -6,8 +6,11 @@ let Gameboard = function (dimension) {
     .fill(null)
     .map(() => new Array(dimension).fill(null));
 
+  gameboard.missedShots = [];
+  gameboard.shipList = [];
+
   gameboard.placeShip = function (y, x, length, orientation) {
-    if (!isValidCoordinate(y, x, length, orientation)) {
+    if (!isValidCoordinate(y, x, length)) {
       return false;
     }
 
@@ -15,6 +18,7 @@ let Gameboard = function (dimension) {
       return false;
     }
     const newShip = Ship(length);
+    gameboard.shipList.push(newShip);
 
     if (orientation === "horizontal") {
       for (let i = x; i < x + length; i++) {
@@ -27,7 +31,7 @@ let Gameboard = function (dimension) {
     }
   };
 
-  function isValidCoordinate(y, x, length, orientation) {
+  function isValidCoordinate(y, x, length) {
     return (
       x >= 0 &&
       x + length < gameboard.board[0].length &&
@@ -54,12 +58,23 @@ let Gameboard = function (dimension) {
     return true;
   }
 
+  gameboard.receiveAttack = function (y, x) {
+    const shipThere = gameboard.board[y][x];
+
+    if (!shipThere) {
+      gameboard.missedShots.push({ y, x });
+      return false;
+    }
+
+    shipThere.hit();
+  };
+
+  gameboard.areAllSunk = function () {
+    return gameboard.shipList.every((ship) => ship.isSunk());
+  };
+
   return gameboard;
 };
 
-const gameboard = Gameboard(4);
-gameboard.placeShip(1, 0, 2, "horizontal");
-gameboard.placeShip(0, 1, 2, "vertical");
 
-console.log(gameboard.board);
 module.exports = Gameboard;
