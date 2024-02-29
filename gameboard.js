@@ -10,14 +10,15 @@ let Gameboard = function (dimension) {
   gameboard.hitAttacks = [];
   gameboard.shipList = [];
 
+  //Place ship if coordinates are valid
   gameboard.placeShip = function (y, x, length, orientation) {
-    if (!isValidCoordinate(y, x, length)) {
+    if (
+      !isValidCoordinate(y, x, length) ||
+      !coordinatesFree(y, x, length, orientation)
+    ) {
       return false;
     }
 
-    if (!coordinatesFree(y, x, length, orientation)) {
-      return false;
-    }
     const newShip = Ship(length);
     gameboard.shipList.push(newShip);
 

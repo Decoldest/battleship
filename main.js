@@ -6,5 +6,5 @@ const startGame = () => {
 }
 
 function isOver(playerOneBoard, playerTwoBoard) [
-  return 
+  
 ]
