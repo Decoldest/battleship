@@ -6,6 +6,7 @@ let Player = function (gameboard, ai = false) {
   const enemyBoard = gameboard;
   const boardDimension = gameboard.board.length;
   const computerAttackList = ai ? new Set() : null;
+  //Queue to search adjacent spaces in case of a hit
   let targetQueue = [];
   //If ship has been hit, target until sunk
   let targetedShip = null;
@@ -20,9 +21,10 @@ let Player = function (gameboard, ai = false) {
     let { y, x } = !targetQueue.length ? randomMove() : attackSpacesNear();
 
     computerAttackList.add(`${y},${x}`);
+    console.log(computerAttackList);
     let didMoveHit = enemyBoard.receiveAttack(y, x);
     if (didMoveHit) {
-      addHitToSearchQueue(y, x);
+      handleHit(y, x);
     }
   };
 
@@ -49,6 +51,16 @@ let Player = function (gameboard, ai = false) {
     return { y, x };
   }
 
+  function handleHit(y, x) {
+    //Clear queue since targeted ship sunk
+    if (targetedShip.isSunk()) {
+      targetQueue = [];
+    } else {
+      targetedShip = gameboard.board[y][x]; //Update the current targeted ship and queue
+      addSurroundingToQueue(y, x);
+    }
+  }
+
   function isValidAttack(y, x) {
     return (
       x >= 0 &&
@@ -62,22 +74,25 @@ let Player = function (gameboard, ai = false) {
   function attackSpacesNear() {
     return targetQueue.shift();
   }
-  return player;
 
-  function addHitToSearchQueue(y, x) {
-    for (let [dy, dx] of [[-1, 0], [1, 0], [0, -1], [0, 1]]) {
+  //Check all spaces around hit, add to queue if valid
+  function addSurroundingToQueue(y, x) {
+    for (let [dy, dx] of [
+      [0, 1],
+      [1, 0],
+      [0, -1],
+      [-1, 0],
+    ]) {
       let newY = y + dy;
       let newX = x + dx;
       if (isValidAttack(newY, newX)) {
-        targetQueue.push({newY, newX});
+        targetQueue.push({ newY, newX });
       }
+    }
   }
-  }
+
+  return player;
 };
 
-gameboardComputerTest = Gameboard(10);
-let computer = Player(gameboardComputerTest, true);
-computer.computerAttack();
-console.log(computer.computerAttackList);
 
 module.exports = Player;
