@@ -1,12 +1,13 @@
 const Ship = require("./ship");
 
 let Gameboard = function (dimension) {
-  let gameboard = {};
+  const gameboard = {};
   gameboard.board = new Array(dimension)
     .fill(null)
     .map(() => new Array(dimension).fill(null));
 
-  gameboard.missedShots = [];
+  gameboard.missedAttacks = [];
+  gameboard.hitAttacks = [];
   gameboard.shipList = [];
 
   gameboard.placeShip = function (y, x, length, orientation) {
@@ -21,13 +22,9 @@ let Gameboard = function (dimension) {
     gameboard.shipList.push(newShip);
 
     if (orientation === "horizontal") {
-      for (let i = x; i < x + length; i++) {
-        gameboard.board[y][i] = newShip;
-      }
+      placeShipHorizontally(y, x, length, newShip);
     } else {
-      for (let i = y; i < y + length; i++) {
-        gameboard.board[i][x] = newShip;
-      }
+      placeShipVertically(y, x, length, newShip);
     }
   };
 
@@ -58,15 +55,29 @@ let Gameboard = function (dimension) {
     return true;
   }
 
+  function placeShipHorizontally(y, x, length, newShip) {
+    for (let i = x; i < x + length; i++) {
+      gameboard.board[y][i] = newShip;
+    }
+  }
+
+  function placeShipVertically(y, x, length, newShip) {
+    for (let i = y; i < y + length; i++) {
+      gameboard.board[i][x] = newShip;
+    }
+  }
+
   gameboard.receiveAttack = function (y, x) {
     const shipThere = gameboard.board[y][x];
 
     if (!shipThere) {
-      gameboard.missedShots.push({ y, x });
+      gameboard.missedAttacks.push({ y, x });
       return false;
     }
 
     shipThere.hit();
+    gameboard.hitAttacks.push({ y, x });
+    return true;
   };
 
   gameboard.areAllSunk = function () {
@@ -75,6 +86,5 @@ let Gameboard = function (dimension) {
 
   return gameboard;
 };
-
 
 module.exports = Gameboard;

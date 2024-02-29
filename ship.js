@@ -1,5 +1,4 @@
-let Ship = function (length) {
-  let ship = {};
+let Ship = function (length) {  const ship = {};
 
   ship.length = length;
   ship.hitsNumber = 0;
