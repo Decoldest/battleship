@@ -1,5 +1,3 @@
-const Gameboard = require("./gameboard");
-
 let Player = function (gameboard, ai = false) {
   const player = {};
 
@@ -24,40 +22,53 @@ let Player = function (gameboard, ai = false) {
     console.log(computerAttackList);
     let didMoveHit = enemyBoard.receiveAttack(y, x);
     if (didMoveHit) {
+      console.log("hit");
       handleHit(y, x);
     }
   };
 
   //Attacks at random with bias towards the middle of the board
   function randomMove() {
-    const minCol = Math.max(0, Math.floor(boardDimension / 2) - 1);
-    const maxCol = Math.min(
-      boardDimension - 1,
-      Math.floor(boardDimension / 2) + 1
-    );
-    const minRow = Math.max(0, Math.floor(boardDimension / 2) - 1);
-    const maxRow = Math.min(
-      boardDimension - 1,
-      Math.floor(boardDimension / 2) + 1
-    );
+    const sigma = 1;
 
-    let y = Math.floor(Math.random() * (maxCol - minCol + 1)) + minCol;
-    let x = Math.floor(Math.random() * (maxRow - minRow + 1)) + minRow;
+    // Function to generate random number with Gaussian distribution
+    function randn_bm() {
+      let u = 0,
+        v = 0;
+      while (u === 0) u = Math.random(); // Converting [0,1) to (0,1)
+      while (v === 0) v = Math.random();
+      return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+    }
 
+    // Calculate mean for Gaussian distribution (middle of the board)
+    const middle = Math.floor(boardDimension / 2);
+
+    // Generate random numbers with Gaussian distribution for row and column
+    let y = Math.round(middle + randn_bm() * sigma);
+    let x = Math.round(middle + randn_bm() * sigma);
+
+    // Ensure that the generated position is within the board boundaries
+    y = Math.min(boardDimension - 1, Math.max(0, y));
+    x = Math.min(boardDimension - 1, Math.max(0, x));
+
+    // Ensure that the generated position is not already attacked
     while (computerAttackList.has(`${y},${x}`)) {
-      y = Math.floor(Math.random() * (maxCol - minCol + 1)) + minCol;
-      x = Math.floor(Math.random() * (maxRow - minRow + 1)) + minRow;
+      // Generate new random numbers with Gaussian distribution
+      y = Math.round(middle + randn_bm() * sigma);
+      x = Math.round(middle + randn_bm() * sigma);
+      // Ensure that the new position is within the board boundaries
+      y = Math.min(boardDimension - 1, Math.max(0, y));
+      x = Math.min(boardDimension - 1, Math.max(0, x));
     }
     return { y, x };
   }
 
   function handleHit(y, x) {
-    //Clear queue since targeted ship sunk
+    targetedShip = gameboard.board[y][x]; //Update the current targeted ship and queue
+    addSurroundingToQueue(y, x);
+
     if (targetedShip.isSunk()) {
       targetQueue = [];
-    } else {
-      targetedShip = gameboard.board[y][x]; //Update the current targeted ship and queue
-      addSurroundingToQueue(y, x);
     }
   }
 
@@ -86,13 +97,12 @@ let Player = function (gameboard, ai = false) {
       let newY = y + dy;
       let newX = x + dx;
       if (isValidAttack(newY, newX)) {
-        targetQueue.push({ newY, newX });
+        targetQueue.push({ y:newY, x:newX });
       }
     }
   }
 
   return player;
 };
-
 
 module.exports = Player;

@@ -6,9 +6,6 @@ const BOARD_SIZE = 10;
 const playerOneBoard = Gameboard(BOARD_SIZE);
 const playerTwoBoard = Gameboard(BOARD_SIZE);
 
-// console.log(playerOneBoard);
-// console.log(playerTwoBoard);
-
 const playerOne = Player(playerTwoBoard);
 const computer = Player(playerOneBoard, true);
 
@@ -24,8 +21,8 @@ const startGame = () => {
 };
 
 function placeShipsOnBoards() {
-  playerOneBoard.placeShip(0, 0, 2, "horizontal");
-  playerOneBoard.placeShip(3, 3, 3, "vertical");
+  playerOneBoard.placeShip(4, 6, 2, "horizontal");
+  playerOneBoard.placeShip(5, 5, 3, "vertical");
   playerTwoBoard.placeShip(0, 0, 2, "horizontal");
   playerTwoBoard.placeShip(3, 3, 3, "vertical");
 }
