@@ -1,0 +1,21 @@
+:root {
+  --grid-item-colour: rgb(195, 195, 195);
+}
+
+.container {
+  display: flex;
+  gap: 2%;
+  align-items: center;
+  justify-content: space-around;
+}
+.board-grid {
+  width: 500px;
+  height: 500px;
+  display: grid;
+  grid-template:repeat(10, 1fr) / repeat(10, 1fr); 
+  gap: 1px;
+}
+
+.grid-item {
+  border: solid var(--grid-item-colour) 0.1px;
+}

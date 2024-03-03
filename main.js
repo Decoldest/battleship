@@ -11,9 +11,7 @@ const computer = Player(playerOneBoard, true);
 
 placeShipsOnBoards();
 
-
 const startGame = () => {
-
   while (!isOver(playerOneBoard, playerTwoBoard)) {
     getPlayerMove();
     computer.computerAttack();
