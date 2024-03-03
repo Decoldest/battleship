@@ -8,7 +8,15 @@
   <script src="UI.js" defer></script>
 </head>
 <body>
-  <div class="container">
+  <div class="start-container">
+    Battleship.io
+    <input type="radio" name="player-option" id="player" value="player" checked />
+    <label for="player">vs Player</label>
+    <input type="radio" name="player-option" id="computer" value="computer" />
+    <label for="computer">vs Computer</label>
+    <button id="start">Start</button>
+  </div>
+  <div class="container hidden">
     <div id="player1-container" class="board-grid"></div>
     <div id="player2-container" class="board-grid"></div>
   </div>

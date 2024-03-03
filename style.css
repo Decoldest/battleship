@@ -1,5 +1,5 @@
 :root {
-  --grid-item-colour: rgb(195, 195, 195);
+  --grid-item-colour: rgb(185, 184, 184);
 }
 
 .container {
@@ -8,14 +8,36 @@
   align-items: center;
   justify-content: space-around;
 }
+
 .board-grid {
-  width: 500px;
-  height: 500px;
+  width: 50px;
+  height: 50px;
   display: grid;
   grid-template:repeat(10, 1fr) / repeat(10, 1fr); 
   gap: 1px;
 }
 
+.start-container {
+  height: 40svh;
+  width: 100svw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 10%;
+}
+
+.start-container>button {
+  width: 50px;
+}
+
 .grid-item {
   border: solid var(--grid-item-colour) 0.1px;
 }
+
+.hidden {
+  padding: 0;
+  opacity: 0;
+  height: 0;
+}
+
+
