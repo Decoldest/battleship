@@ -22,7 +22,6 @@ let Player = function (gameboard, ai = false) {
     console.log(computerAttackList);
     let didMoveHit = enemyBoard.receiveAttack(y, x);
     if (didMoveHit) {
-      console.log("hit");
       handleHit(y, x);
     }
   };
@@ -97,10 +96,11 @@ let Player = function (gameboard, ai = false) {
       let newY = y + dy;
       let newX = x + dx;
       if (isValidAttack(newY, newX)) {
-        targetQueue.push({ y:newY, x:newX });
+        targetQueue.push({ y: newY, x: newX });
       }
     }
   }
+  player.isAi = ai;
 
   return player;
 };

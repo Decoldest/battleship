@@ -77,6 +77,7 @@ let Gameboard = function (dimension) {
     }
 
     shipThere.hit();
+    console.log("hit");
     gameboard.hitAttacks.push({ y, x });
     return true;
   };

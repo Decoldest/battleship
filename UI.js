@@ -10,7 +10,7 @@ const BOARD_SIZE = 10;
 const setSquares = (container) => {
   for (let i = 0; i < BOARD_SIZE; i++) {
     for (let j = 0; j < BOARD_SIZE; j++) {
-      const element = document.createElement("div");
+      const element = document.createElement("button");
       element.classList.add("grid-item");
       element.value = `${i},${j}`;
       addGridButtonListener(element);
@@ -31,8 +31,14 @@ startButton.addEventListener("click", () => {
   console.log(
     document.querySelector('input[name="player-option"]:checked').value
   );
-  startContainer.classList.toggle("hidden");
-  container.classList.toggle("hidden");
+  showPlayerGrids();
   setSquares(playerOneContainer);
   setSquares(playerTwoContainer);
 });
+
+const showPlayerGrids = () => {
+  startContainer.classList.toggle("hidden");
+  container.classList.toggle("hidden");
+  playerOneContainer.style.display = "grid";
+  playerTwoContainer.style.display = "grid";
+};
