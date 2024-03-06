@@ -1,5 +1,7 @@
 :root {
   --grid-item-colour: rgb(185, 184, 184);
+  --grid-size: 40px;
+  --ship-colour: blue;
 }
 
 .container {
@@ -10,8 +12,8 @@
 }
 
 .board-grid {
-  width: 500px;
-  height: 500px;
+  min-width: calc(var(--grid-size)*10);
+  min-height: calc(var(--grid-size)*10);
   display: none;
   grid-template:repeat(10, 1fr) / repeat(10, 1fr); 
   gap: 1px;
@@ -34,10 +36,56 @@
   border: solid var(--grid-item-colour) 0.1px;
 }
 
+.ships-container {
+  margin-top: 10px;
+  display: flex;
+  gap: 2%;
+  justify-content: space-around;
+}
+
+.ships {
+  width: calc(var(--grid-size)*10);
+  height: 125px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content:space-around
+}
+
+.carrier {
+  background-color: var(--ship-colour);
+  width: calc(5*var(--grid-size));
+  height: var(--grid-size);
+}
+
+.battleship {
+  background-color: var(--ship-colour);
+  width: calc(4*var(--grid-size));
+  height: var(--grid-size);
+}
+
+.destroyer {
+  background-color: var(--ship-colour);
+  width: calc(3*var(--grid-size));
+  height: var(--grid-size);
+}
+
+.submarine {
+  background-color: var(--ship-colour);
+  width: calc(3*var(--grid-size));
+  height: var(--grid-size);
+}
+
+.patrol-boat {
+  background-color: var(--ship-colour);
+  width: calc(2*var(--grid-size));
+  height: var(--grid-size);
+}
 .hidden {
   padding: 0;
   opacity: 0;
   height: 0;
 }
+
 
 

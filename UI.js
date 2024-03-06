@@ -34,6 +34,10 @@ startButton.addEventListener("click", () => {
   showPlayerGrids();
   setSquares(playerOneContainer);
   setSquares(playerTwoContainer);
+
+  const playerOneGridSpaces = playerOneContainer.querySelectorAll(".grid-item");
+
+  addGridDragListeners(playerOneGridSpaces);
 });
 
 const showPlayerGrids = () => {
@@ -42,3 +46,29 @@ const showPlayerGrids = () => {
   playerOneContainer.style.display = "grid";
   playerTwoContainer.style.display = "grid";
 };
+
+//Event listeners dragstart
+const ships = document.querySelectorAll(".ships > div");
+let draggedShip;
+
+ships.forEach((ship) => ship.addEventListener("dragstart", dragStart));
+
+function addGridDragListeners(playerGrid) {
+  playerGrid.forEach((gridSpace) => {
+    gridSpace.addEventListener("dragover", dragOver);
+    gridSpace.addEventListener("drop", dropShip);
+  });
+}
+
+function dragStart(e) {
+  draggedShip = e.target;
+}
+
+function dragOver(e) {
+  e.preventDefault();
+}
+
+function dropShip(e) {
+  console.log(e.target.value);
+  // e.target.id;
+}

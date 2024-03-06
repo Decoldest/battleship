@@ -27,6 +27,7 @@ let Gameboard = function (dimension) {
     } else {
       placeShipVertically(y, x, length, newShip);
     }
+    console.log(this.board);
   };
 
   function isValidCoordinate(y, x, length) {
@@ -68,6 +69,7 @@ let Gameboard = function (dimension) {
     }
   }
 
+  //Returns false if missed, true if hit
   gameboard.receiveAttack = function (y, x) {
     const shipThere = gameboard.board[y][x];
 
