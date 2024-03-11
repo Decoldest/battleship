@@ -1,4 +1,4 @@
-const Gameboard = require("./gameboard");
+const Gameboard = require("./gameboard").default;
 const Player = require("./player");
 const prompt = require("prompt-sync")({ sigint: true });
 
@@ -23,11 +23,12 @@ function initiatePlayers(playerTwoOption) {
   currentPlayer = playerOne;
 }
 
-function placeShipsOnBoards() {
-  playerOneBoard.placeShip(4, 6, 2, "horizontal");
-  playerOneBoard.placeShip(5, 5, 3, "vertical");
-  playerTwoBoard.placeShip(0, 0, 4, "horizontal");
-  playerTwoBoard.placeShip(3, 3, 3, "vertical");
+export function placeShipOnBoards(currentPlayer, y, x, length, orientation) {
+  if (currentPlayer === playerOne) {
+    playerOneBoard.placeShip(y, x, length, orientation);
+  } else {
+    playerTwoBoard.placeShip(y, x, length, orientation);
+  }
 }
 
 function playerAttack(player) {
@@ -60,6 +61,7 @@ function isOver(playerOneBoard, playerTwoBoard) {
 }
 
 initiatePlayers("player");
-placeShipsOnBoards();
 
 startGame();
+
+//module.exports = Main;

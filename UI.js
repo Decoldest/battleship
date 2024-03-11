@@ -3,8 +3,9 @@ const playerTwoContainer = document.getElementById("player2-container");
 const container = document.querySelector(".container");
 const startButton = document.getElementById("start");
 const startContainer = document.querySelector(".start-container");
-
 const BOARD_SIZE = 10;
+
+//import { placeShipOnBoard } from './main';
 
 //Draw grid and add listener
 const setSquares = (container) => {
@@ -47,28 +48,44 @@ const showPlayerGrids = () => {
   playerTwoContainer.style.display = "grid";
 };
 
-//Event listeners dragstart
-const ships = document.querySelectorAll(".ships > div");
-let draggedShip;
-
-ships.forEach((ship) => ship.addEventListener("dragstart", dragStart));
-
+//Add event listeners for grid
 function addGridDragListeners(playerGrid) {
   playerGrid.forEach((gridSpace) => {
     gridSpace.addEventListener("dragover", dragOver);
+    gridSpace.addEventListener("dragenter", dragEnter);
     gridSpace.addEventListener("drop", dropShip);
   });
 }
 
-function dragStart(e) {
-  draggedShip = e.target;
+const ships = document.querySelectorAll(".ship");
+let draggedShipLength;
+let draggedPartValue;
+
+//Add event listeners for ships
+ships.forEach((ship) => {
+  ship.addEventListener("dragstart", dragStart);
+  ship.addEventListener("mousedown", (e) => {
+    draggedPartValue = e.target.id;
+    console.log(draggedPartValue);
+  });
+});
+
+function dragStart() {
+  draggedShip = this;
+  console.log(draggedShip.classList[3]);
+  draggedShipLength = this.children.length;
 }
 
 function dragOver(e) {
   e.preventDefault();
 }
 
+function dragEnter(e) {
+  e.preventDefault();
+}
+
 function dropShip(e) {
-  console.log(e.target.value);
-  // e.target.id;
+  console.log(draggedShip);
+  let [y, x] = e.target.value.split(',');
+  console.log(y, x);
 }

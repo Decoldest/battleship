@@ -45,42 +45,22 @@
 
 .ships {
   width: calc(var(--grid-size)*10);
-  height: 125px;
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 5px;
   justify-content:space-around
 }
 
-.carrier {
-  background-color: var(--ship-colour);
-  width: calc(5*var(--grid-size));
-  height: var(--grid-size);
+.ship {
+  display: flex;
 }
 
-.battleship {
+.ship>div {
   background-color: var(--ship-colour);
-  width: calc(4*var(--grid-size));
-  height: var(--grid-size);
+  width: calc(var(--grid-size) - 1px);
+  height: calc(var(--grid-size) - 1px);
 }
 
-.destroyer {
-  background-color: var(--ship-colour);
-  width: calc(3*var(--grid-size));
-  height: var(--grid-size);
-}
-
-.submarine {
-  background-color: var(--ship-colour);
-  width: calc(3*var(--grid-size));
-  height: var(--grid-size);
-}
-
-.patrol-boat {
-  background-color: var(--ship-colour);
-  width: calc(2*var(--grid-size));
-  height: var(--grid-size);
-}
 .hidden {
   padding: 0;
   opacity: 0;

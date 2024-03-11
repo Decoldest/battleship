@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
   <title>Battleship</title>
   <script src="UI.js" defer></script>
 </head>
+
 <body>
   <div class="start-container">
     Battleship.io
@@ -23,11 +25,33 @@
   </div>
   <div class="ships-container">
     <div class="player1-ships ships">
-      <div class="carrier horizontal" draggable="true" value="5"></div>
-      <div class="battleship horizontal" draggable="true" value="4"></div>
-      <div class="destroyer horizontal" draggable="true" value="3"></div>
-      <div class="submarine horizontal" draggable="true" value="3"></div>
-      <div class="patrol-boat horizontal" draggable="true" value="2"></div>
+      <div class="player-1 ship carrier horizontal" draggable="true">
+        <div id="0"></div>
+        <div id="1"></div>
+        <div id="2"></div>
+        <div id="3"></div>
+        <div id="4"></div>
+      </div>
+      <div class="player-1 ship battleship horizontal" draggable="true">
+        <div id="0"></div>
+        <div id="1"></div>
+        <div id="2"></div>
+        <div id="3"></div>
+      </div>
+      <div class="player-1 ship destroyer horizontal" draggable="true">
+        <div id="0"></div>
+        <div id="1"></div>
+        <div id="2"></div>
+      </div>
+      <div class="player-1 ship submarine horizontal" draggable="true">
+        <div id="0"></div>
+        <div id="1"></div>
+        <div id="2"></div>
+      </div>
+      <div class="player-1 ship patrol-boat horizontal" draggable="true">
+        <div id="0"></div>
+        <div id="1"></div>
+      </div>
     </div>
     <div class="player2-ships ships hidden">
       <div class="carrier horizontal" draggable="true" value="5"></div>
@@ -38,4 +62,5 @@
     </div>
   </div>
 </body>
+
 </html>
