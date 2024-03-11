@@ -2,7 +2,8 @@
   "name": "battleship",
   "version": "1.0.0",
   "description": "",
-  "main": "script.js",
+  "main": "main.js",
+  "type": "module",
   "scripts": {
     "test": "jest"
   },
