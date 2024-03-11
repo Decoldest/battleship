@@ -3,13 +3,19 @@
   "version": "1.0.0",
   "description": "",
   "main": "main.js",
-  "type": "module",
+  "private": true,
   "scripts": {
     "test": "jest"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "lodash": "^4.17.21",
     "prompt-sync": "^4.2.0"
-  }
+  },
+  "devDependencies": {
+    "webpack": "^5.90.3",
+    "webpack-cli": "^5.1.4"
+  },
+  "keywords": []
 }
