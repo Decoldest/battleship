@@ -3,7 +3,7 @@ const playerTwoContainer = document.getElementById("player2-container");
 const container = document.querySelector(".container");
 const startButton = document.getElementById("start");
 const startContainer = document.querySelector(".start-container");
-import { BOARD_SIZE, placeShipOnBoard } from "./main";
+import { BOARD_SIZE, initiatePlayers, placeShipOnBoard } from "./main";
 
 //import { BOARD_SIZE, placeShipOnBoard } from "./main.js";
 
@@ -29,7 +29,7 @@ function addGridButtonListener(element) {
 
 //Clicking start will draw the board
 startButton.addEventListener("click", () => {
-  console.log(
+  initiatePlayers(
     document.querySelector('input[name="player-option"]:checked').value
   );
   showPlayerGrids();
@@ -58,6 +58,7 @@ function addGridDragListeners(playerGrid) {
 }
 
 const ships = document.querySelectorAll(".ship");
+let draggedShip;
 let draggedShipLength;
 let draggedPartValue;
 
@@ -66,13 +67,11 @@ ships.forEach((ship) => {
   ship.addEventListener("dragstart", dragStart);
   ship.addEventListener("mousedown", (e) => {
     draggedPartValue = e.target.id;
-    console.log(draggedPartValue);
   });
 });
 
 function dragStart() {
   draggedShip = this;
-  console.log(draggedShip.classList[3]);
   draggedShipLength = this.children.length;
 }
 
@@ -87,17 +86,27 @@ function dragEnter(e) {
 function dropShip(e) {
   let [y, x] = e.target.value.split(",");
   console.log(y, x);
-  const test = placeShipOnBoard(
+  console.log("Part: ", draggedPartValue);
+  console.log("Length: ", draggedShipLength);
+  const orientation = getShipOrientation(draggedShip);
+  if (orientation === "horizontal") {
+    x = +x - draggedPartValue;
+  } else {
+    y = +y - draggedPartValue;
+  }
+
+  const checkPlaced = placeShipOnBoard(
     y,
     x,
     draggedShipLength,
-    getShipOrientation(draggedShip)
+    orientation
   );
-  console.log(test);
+
+  //placeShipOnBoard(0, 0, 2, "horizontal");
 }
 
 function getShipOrientation(draggedShip) {
-  return draggedShip.classList.contains("horizonal")
+  return draggedShip.classList.contains("horizontal")
     ? "horizontal"
     : "vertical";
 }

@@ -1,4 +1,4 @@
-import Ship from './ship'
+import Ship from "./ship";
 let Gameboard = function (dimension) {
   const gameboard = {};
   gameboard.board = new Array(dimension)
@@ -8,11 +8,12 @@ let Gameboard = function (dimension) {
   gameboard.missedAttacks = [];
   gameboard.hitAttacks = [];
   gameboard.shipList = [];
+  const boardLength = gameboard.board.length;
 
   //Place ship if coordinates are valid
   gameboard.placeShip = function (y, x, length, orientation) {
     if (
-      !isValidCoordinate(y, x, length) ||
+      !isValidCoordinate(y, x, length, orientation) ||
       !coordinatesFree(y, x, length, orientation)
     ) {
       return false;
@@ -27,16 +28,20 @@ let Gameboard = function (dimension) {
       placeShipVertically(y, x, length, newShip);
     }
     console.log(this.board);
+    return true;
   };
 
-  function isValidCoordinate(y, x, length) {
-    return (
-      x >= 0 &&
-      x + length < gameboard.board[0].length &&
-      y >= 0 &&
-      y + length < gameboard.board.length &&
-      length > 0
-    );
+  function isValidCoordinate(y, x, length, orientation) {
+    if (x < 0 || y < 0 || length <= 0) {
+      return false;
+    }
+
+    if (orientation === "horizontal") {
+      return x + length <= boardLength;
+    } else if (orientation === "vertical") {
+      return y + length <= boardLength;
+    }
+    return false;
   }
 
   function coordinatesFree(y, x, length, orientation) {
@@ -86,10 +91,6 @@ let Gameboard = function (dimension) {
   gameboard.areAllSunk = function () {
     return gameboard.shipList.every((ship) => ship.isSunk());
   };
-
-  gameboard.getBoard = function () {
-    return gameboard.board;
-  }
 
   return gameboard;
 };

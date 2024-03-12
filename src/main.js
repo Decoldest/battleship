@@ -10,7 +10,7 @@ let playerOne;
 let playerTwo;
 let currentPlayer;
 
-function initiatePlayers(playerTwoOption) {
+export function initiatePlayers(playerTwoOption) {
   //Player one is always regular
   playerOne = Player(playerTwoBoard);
 
@@ -21,9 +21,13 @@ function initiatePlayers(playerTwoOption) {
       : Player(playerOneBoard, true);
 
   currentPlayer = playerOne;
+
+  console.log(playerOne);
+  console.log(playerTwo);
 }
 
 export function placeShipOnBoard(y, x, length, orientation) {
+  console.log(`y: ${y}, x: ${x}, length:${length}, orientation: ${orientation}`);
   if (currentPlayer === playerOne) {
     return playerOneBoard.placeShip(y, x, length, orientation);
   } else {
@@ -59,7 +63,5 @@ const startGame = () => {
 function isOver(playerOneBoard, playerTwoBoard) {
   return playerOneBoard.areAllSunk() || playerTwoBoard.areAllSunk();
 }
-
-initiatePlayers("player");
 
 startGame();
