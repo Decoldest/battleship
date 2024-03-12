@@ -4,6 +4,7 @@ import {
   placeShipOnBoard,
   switchCurrentPlayer,
   isSecondPlayerComputer,
+  setComputerShips,
 } from "./main";
 
 const playerOneContainer = document.getElementById("player1-container");
@@ -183,7 +184,11 @@ function handleAllShipsPlaced() {
       toggleVisibility(playerTwoShips, playerTwoText);
       switchCurrentPlayer();
     } else {
-      //setComputerShips
+      console.log("player One done");
+      const shipLengths = [...playerTwoShips.querySelectorAll(".ship")].map(
+        (node) => node.children.length
+      );
+      setComputerShips();
     }
   }
 

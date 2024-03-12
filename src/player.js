@@ -4,6 +4,8 @@ let Player = function (gameboard, ai = false) {
   const enemyBoard = gameboard;
   const boardDimension = gameboard.board.length;
   const computerAttackList = ai ? new Set() : null;
+  const computerShips = [5, 4, 3, 3, 2];
+
   //Queue to search adjacent spaces in case of a hit
   let targetQueue = [];
   //If ship has been hit, target until sunk
@@ -100,6 +102,30 @@ let Player = function (gameboard, ai = false) {
       }
     }
   }
+
+  player.computerAddShips = function () {
+  console.log("LEN ", computerShips.length);
+
+    while (computerShips.length) {
+      const shipLength = computerShips.pop();
+      let isValidPlacement = false;
+      console.log(shipLength);
+      // Continue trying to place the ship until a valid placement is found
+      while (!isValidPlacement) {
+        // Generate random coordinates for the ship
+        const y = Math.floor(Math.random() * boardDimension);
+        const x = Math.floor(Math.random() * boardDimension);
+
+        // Generate random orientation for the ship
+        const orientation = Math.random() < 0.5 ? "horizontal" : "vertical";
+
+        // Attempt to place the ship on the gameboard
+        isValidPlacement = gameboard.placeShip(y, x, shipLength, orientation);
+        console.log(`placement va;lid: ${isValidPlacement}`);
+      }
+    }
+  };
+
   player.isAi = ai;
 
   return player;

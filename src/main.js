@@ -21,9 +21,6 @@ export function initiatePlayers(playerTwoOption) {
       : Player(playerOneBoard, true);
 
   currentPlayer = playerOne;
-
-  console.log(playerOne);
-  console.log(playerTwo);
 }
 
 export function placeShipOnBoard(y, x, length, orientation) {
@@ -33,6 +30,11 @@ export function placeShipOnBoard(y, x, length, orientation) {
   } else {
     return playerTwoBoard.placeShip(y, x, length, orientation);
   }
+}
+
+//playerOne sets computer ships since computer is the enemy
+export function setComputerShips(shipLengths) {
+  playerOne.computerAddShips();
 }
 
 function playerAttack(player) {
