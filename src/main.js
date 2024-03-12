@@ -64,4 +64,8 @@ function isOver(playerOneBoard, playerTwoBoard) {
   return playerOneBoard.areAllSunk() || playerTwoBoard.areAllSunk();
 }
 
+export function isSecondPlayerComputer() {
+  return playerTwo.isAi;
+}
+
 //startGame();

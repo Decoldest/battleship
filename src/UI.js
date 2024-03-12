@@ -1,3 +1,11 @@
+import {
+  BOARD_SIZE,
+  initiatePlayers,
+  placeShipOnBoard,
+  switchCurrentPlayer,
+  isSecondPlayerComputer,
+} from "./main";
+
 const playerOneContainer = document.getElementById("player1-container");
 const playerTwoContainer = document.getElementById("player2-container");
 const playerOneShips = document.querySelector(".player1-ships");
@@ -5,12 +13,36 @@ const playerTwoShips = document.querySelector(".player2-ships");
 const container = document.querySelector(".container");
 const startButton = document.getElementById("start");
 const startContainer = document.querySelector(".start-container");
-import {
-  BOARD_SIZE,
-  initiatePlayers,
-  placeShipOnBoard,
-  switchCurrentPlayer,
-} from "./main";
+const playerOneText = document.querySelector(".player1-ships-text");
+const playerTwoText = document.querySelector(".player2-ships-text");
+
+const ships = document.querySelectorAll(".ship");
+let draggedShip;
+let draggedShipLength;
+let draggedPartValue;
+let playerOneShipsPlaced = false;
+
+//Clicking start will draw the board and add listeners
+startButton.addEventListener("click", startGame);
+
+function startGame() {
+  initiatePlayers(
+    document.querySelector('input[name="player-option"]:checked').value
+  );
+  showPlayerGrids();
+  setSquares(playerOneContainer);
+  setSquares(playerTwoContainer);
+
+  const playerOneGridSpaces = playerOneContainer.querySelectorAll(".grid-item");
+
+  addGridDragListeners(playerOneGridSpaces);
+  toggleVisibility(playerOneShips, playerOneText);
+}
+
+function toggleVisibility(shipsElement, textElement) {
+  shipsElement.classList.toggle("hidden");
+  textElement.classList.toggle("hidden");
+}
 
 //Draw grid and add listener
 const setSquares = (container) => {
@@ -31,21 +63,6 @@ function addGridButtonListener(element) {
     console.log(element.value);
   });
 }
-
-//Clicking start will draw the board and add listeners
-startButton.addEventListener("click", () => {
-  initiatePlayers(
-    document.querySelector('input[name="player-option"]:checked').value
-  );
-  showPlayerGrids();
-  setSquares(playerOneContainer);
-  setSquares(playerTwoContainer);
-
-  const playerOneGridSpaces = playerOneContainer.querySelectorAll(".grid-item");
-
-  addGridDragListeners(playerOneGridSpaces);
-  playerOneShips.classList.toggle("hidden");
-});
 
 function setPlayerShips(playerShips) {}
 
@@ -72,12 +89,6 @@ function removeGridDragListeners(playerGrid) {
     gridSpace.removeEventListener("drop", dropShip);
   });
 }
-
-const ships = document.querySelectorAll(".ship");
-let draggedShip;
-let draggedShipLength;
-let draggedPartValue;
-let playerOneShipsPlaced = false;
 
 //Add event listeners for ships
 ships.forEach((ship) => {
@@ -154,7 +165,7 @@ function drawShipOnGrid(grid, y, x, length, orientation) {
     }
   }
   selectedButtons.forEach(function (selector) {
-    var button = document.querySelector(selector);
+    var button = grid.querySelector(selector);
     button.classList.add("ship-placed");
   });
 }
@@ -163,11 +174,21 @@ function handleAllShipsPlaced() {
   if (!playerOneShipsPlaced && !playerOneShips.querySelector(".ship")) {
     playerOneShipsPlaced = true;
     removeGridDragListeners(playerOneContainer.querySelectorAll(".grid-item"));
+    toggleVisibility(playerOneShips, playerOneText);
 
-    const playerTwoGridSpaces =
-      playerTwoContainer.querySelectorAll(".grid-item");
-    addGridDragListeners(playerTwoGridSpaces);
-    playerTwoShips.classList.toggle("hidden");
-    switchCurrentPlayer();
+    if (!isSecondPlayerComputer()) {
+      const playerTwoGridSpaces =
+        playerTwoContainer.querySelectorAll(".grid-item");
+      addGridDragListeners(playerTwoGridSpaces);
+      toggleVisibility(playerTwoShips, playerTwoText);
+      switchCurrentPlayer();
+    } else {
+      //setComputerShips
+    }
+  }
+
+  if (!playerTwoShips.querySelector(".ship")) {
+    toggleVisibility(playerTwoShips, playerTwoText);
+    console.log("starting game");
   }
 }

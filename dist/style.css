@@ -1,7 +1,8 @@
 :root {
-  --grid-item-colour: rgb(32, 32, 32);
+  --grid-item-colour: rgb(121, 152, 183);
+  --grid-border-colour: rgb(53, 57, 114);
   --grid-size: 40px;
-  --ship-colour: blue;
+  --ship-colour: rgb(160, 102, 71);
 }
 
 .container {
@@ -16,7 +17,7 @@
   min-height: calc(var(--grid-size)*10);
   display: none;
   grid-template:repeat(10, 1fr) / repeat(10, 1fr); 
-  gap: 1px;
+  gap: 2px;
 }
 
 .start-container {
@@ -33,8 +34,9 @@
 }
 
 .grid-item {
-  opacity: 0.25;
-  border: solid var(--grid-item-colour) 0.1px;
+  background-color: var(--grid-item-colour);
+  opacity: 0.35;
+  border: solid var(--grid-border-colour) 0.15rem;
 }
 .grid-item.ship-placed {
   opacity: 1;
@@ -52,11 +54,12 @@
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
-  justify-content:space-around
+  justify-content:space-around;
 }
 
 .ship {
   display: flex;
+  border: var(--ship-colour);
 }
 
 .ship>div {
@@ -66,10 +69,10 @@
 }
 
 .hidden {
+  visibility: hidden;
   padding: 0;
   opacity: 0;
   height: 0;
-  z-index: -1;
 }
 
 
