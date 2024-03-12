@@ -5,8 +5,6 @@ const startButton = document.getElementById("start");
 const startContainer = document.querySelector(".start-container");
 import { BOARD_SIZE, initiatePlayers, placeShipOnBoard } from "./main";
 
-//import { BOARD_SIZE, placeShipOnBoard } from "./main.js";
-
 //Draw grid and add listener
 const setSquares = (container) => {
   for (let i = 0; i < BOARD_SIZE; i++) {
@@ -61,7 +59,6 @@ const ships = document.querySelectorAll(".ship");
 let draggedShip;
 let draggedShipLength;
 let draggedPartValue;
-let lastClick = 0;
 
 //Add event listeners for ships
 ships.forEach((ship) => {
@@ -104,11 +101,17 @@ function dropShip(e) {
 
   const checkPlaced = placeShipOnBoard(y, x, draggedShipLength, orientation);
 
-  //placeShipOnBoard(0, 0, 2, "horizontal");
+  handleRemoveShip(checkPlaced);
 }
 
 function getShipOrientation(draggedShip) {
   return draggedShip.classList.contains("horizontal")
     ? "horizontal"
     : "vertical";
+}
+
+function handleRemoveShip (checkPlaced) {
+  if (checkPlaced) {
+    draggedShip.remove();
+  }
 }
