@@ -1,5 +1,5 @@
 :root {
-  --grid-item-colour: rgb(185, 184, 184);
+  --grid-item-colour: rgb(32, 32, 32);
   --grid-size: 40px;
   --ship-colour: blue;
 }
@@ -33,7 +33,11 @@
 }
 
 .grid-item {
+  opacity: 0.25;
   border: solid var(--grid-item-colour) 0.1px;
+}
+.grid-item.ship-placed {
+  opacity: 1;
 }
 
 .ships-container {

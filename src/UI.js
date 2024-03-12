@@ -5,7 +5,12 @@ const playerTwoShips = document.querySelector(".player2-ships");
 const container = document.querySelector(".container");
 const startButton = document.getElementById("start");
 const startContainer = document.querySelector(".start-container");
-import { BOARD_SIZE, initiatePlayers, placeShipOnBoard, switchCurrentPlayer } from "./main";
+import {
+  BOARD_SIZE,
+  initiatePlayers,
+  placeShipOnBoard,
+  switchCurrentPlayer,
+} from "./main";
 
 //Draw grid and add listener
 const setSquares = (container) => {
@@ -39,7 +44,10 @@ startButton.addEventListener("click", () => {
   const playerOneGridSpaces = playerOneContainer.querySelectorAll(".grid-item");
 
   addGridDragListeners(playerOneGridSpaces);
+  playerOneShips.classList.toggle("hidden");
 });
+
+function setPlayerShips(playerShips) {}
 
 const showPlayerGrids = () => {
   startContainer.classList.toggle("hidden");
@@ -54,6 +62,14 @@ function addGridDragListeners(playerGrid) {
     gridSpace.addEventListener("dragover", dragOver);
     gridSpace.addEventListener("dragenter", dragEnter);
     gridSpace.addEventListener("drop", dropShip);
+  });
+}
+
+function removeGridDragListeners(playerGrid) {
+  playerGrid.forEach((gridSpace) => {
+    gridSpace.removeEventListener("dragover", dragOver);
+    gridSpace.removeEventListener("dragenter", dragEnter);
+    gridSpace.removeEventListener("drop", dropShip);
   });
 }
 
@@ -101,7 +117,14 @@ function dropShip(e) {
 
   const checkPlaced = placeShipOnBoard(y, x, draggedShipLength, orientation);
 
-  handleRemoveShip(checkPlaced);
+  handleAddShip(
+    checkPlaced,
+    e.target.parentNode,
+    y,
+    x,
+    draggedShipLength,
+    orientation
+  );
   handleAllShipsPlaced();
 }
 
@@ -111,21 +134,40 @@ function getShipOrientation(draggedShip) {
     : "vertical";
 }
 
-function handleRemoveShip(checkPlaced) {
+//Draws the placed ship on the grid
+function handleAddShip(checkPlaced, grid, y, x, length, orientation) {
   if (checkPlaced) {
     draggedShip.remove();
+    drawShipOnGrid(grid, y, x, length, orientation);
   }
+}
+
+function drawShipOnGrid(grid, y, x, length, orientation) {
+  let selectedButtons = [];
+  if (orientation === "horizontal") {
+    for (let i = x; i < x + length; i++) {
+      selectedButtons.push(`button[value="${y},${i}"]`);
+    }
+  } else {
+    for (let i = y; i < y + length; i++) {
+      selectedButtons.push(`button[value="${i},${x}"]`);
+    }
+  }
+  selectedButtons.forEach(function (selector) {
+    var button = document.querySelector(selector);
+    button.classList.add("ship-placed");
+  });
 }
 
 function handleAllShipsPlaced() {
   if (!playerOneShipsPlaced && !playerOneShips.querySelector(".ship")) {
     playerOneShipsPlaced = true;
+    removeGridDragListeners(playerOneContainer.querySelectorAll(".grid-item"));
+
     const playerTwoGridSpaces =
-    playerTwoContainer.querySelectorAll(".grid-item");
+      playerTwoContainer.querySelectorAll(".grid-item");
     addGridDragListeners(playerTwoGridSpaces);
     playerTwoShips.classList.toggle("hidden");
     switchCurrentPlayer();
   }
-
-  
 }
