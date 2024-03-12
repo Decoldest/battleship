@@ -52,7 +52,7 @@ function playRound() {
   }
 }
 
-function switchCurrentPlayer() {
+export function switchCurrentPlayer() {
   currentPlayer = currentPlayer === playerOne ? playerTwo : playerOne;
 }
 
@@ -64,4 +64,4 @@ function isOver(playerOneBoard, playerTwoBoard) {
   return playerOneBoard.areAllSunk() || playerTwoBoard.areAllSunk();
 }
 
-startGame();
+//startGame();
