@@ -61,12 +61,19 @@ const ships = document.querySelectorAll(".ship");
 let draggedShip;
 let draggedShipLength;
 let draggedPartValue;
+let lastClick = 0;
 
 //Add event listeners for ships
 ships.forEach((ship) => {
   ship.addEventListener("dragstart", dragStart);
   ship.addEventListener("mousedown", (e) => {
     draggedPartValue = e.target.id;
+  });
+  ship.addEventListener("dblclick", function () {
+    ship.style.flexDirection = ship.classList.contains("horizontal")
+      ? "column"
+      : "row";
+    ship.classList.toggle("horizontal");
   });
 });
 
@@ -95,12 +102,7 @@ function dropShip(e) {
     y = +y - draggedPartValue;
   }
 
-  const checkPlaced = placeShipOnBoard(
-    y,
-    x,
-    draggedShipLength,
-    orientation
-  );
+  const checkPlaced = placeShipOnBoard(y, x, draggedShipLength, orientation);
 
   //placeShipOnBoard(0, 0, 2, "horizontal");
 }
