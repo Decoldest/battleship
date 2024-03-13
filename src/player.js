@@ -13,7 +13,7 @@ let Player = function (gameboard, ai = false) {
 
   //Get coordinates and send attack to enemy
   player.attackEnemy = function (y, x) {
-    enemyBoard.receiveAttack(y, x);
+    return enemyBoard.receiveAttack(y, x);
   };
 
   //Computer chooses between random or logical attack
@@ -25,7 +25,9 @@ let Player = function (gameboard, ai = false) {
     let didMoveHit = enemyBoard.receiveAttack(y, x);
     if (didMoveHit) {
       handleHit(y, x);
+      return true;
     }
+    return false;
   };
 
   //Attacks at random with bias towards the middle of the board

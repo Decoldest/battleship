@@ -4,7 +4,7 @@
   --grid-size: 40px;
   --ship-colour: rgb(65, 76, 165);
   --hit-colour: rgb(242, 92, 92);
-  --miss-colour: rgb(168, 168, 168);
+  --miss-colour: rgb(105, 105, 105);
 }
 
 .container {
@@ -40,7 +40,9 @@
   background-color: var(--grid-item-colour);
   opacity: 0.35;
   border: solid var(--grid-border-colour) 0.15rem;
+  transition: background-color 0.2s;
 }
+
 .grid-item.ship-placed {
   opacity: 1;
 }
@@ -84,7 +86,17 @@
   right: 0;
   bottom: 0;
   left: 0;
-  background: #a1a1a1;
-  opacity: 0.8;
+  background: #3b3b3b;
+  opacity: 0.4;
   z-index: 2;
+}
+
+.grid-item.hit {
+  opacity: 0.8;
+  background-color: var(--hit-colour);
+}
+
+.grid-item.miss {
+  opacity: 0.8;
+  background-color: var(--miss-colour);
 }

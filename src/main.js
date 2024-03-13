@@ -37,13 +37,11 @@ export function setComputerShips(shipLengths) {
   playerOne.computerAddShips();
 }
 
-function playerAttack(player) {
-  if (player.isAi) {
-    player.computerAttack();
+export function playerAttack(y, x) {
+  if (currentPlayer.isAi) {
+    return currentPlayer.computerAttack();
   } else {
-    const y = prompt("Y: ");
-    const x = prompt("X: ");
-    player.attackEnemy(y, x);
+    return currentPlayer.attackEnemy(y, x);
   }
 }
 

@@ -5,7 +5,7 @@ import {
   switchCurrentPlayer,
   isSecondPlayerComputer,
   setComputerShips,
-  currentPlayer,
+  playerAttack,
 } from "./main";
 
 const playerOneContainer = document.getElementById("player1-container");
@@ -62,13 +62,23 @@ const setSquares = (container) => {
 };
 
 //Adds grid coordinate to grid element
-function addGridButtonListener(element) {
-  element.addEventListener("click", () => {
-    console.log(element.value);
+function addGridButtonListener(gridItem) {
+  gridItem.addEventListener("click", () => {
+    const [y, x] = gridItem.value.split(",");
+    const attack = playerAttack(y, x);
+    handleAttack(attack, gridItem);
   });
 }
 
-function setPlayerShips(playerShips) {}
+function handleAttack(attack, gridItem) {
+  console.log(attack);
+  if (attack) {
+    console.log("Adding 'hit' class to grid item:", gridItem);
+    gridItem.classList.add("hit");
+  } else {
+    gridItem.classList.add("miss");
+  }
+}
 
 const showPlayerGrids = () => {
   startContainer.classList.toggle("hidden");
@@ -209,7 +219,7 @@ function handleAllShipsPlaced() {
   if (!playerTwoShips.querySelector(".ship")) {
     toggleVisibility(playerTwoShips, playerTwoText);
     removeShipsFromGrid(playerTwoContainer);
-    console.log("starting game");
-    console.log(currentPlayer);
+    toggleCover(playerOneCover);
+    switchCurrentPlayer();
   }
 }
