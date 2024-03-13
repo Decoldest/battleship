@@ -1,0 +1,119 @@
+:root {
+  --grid-item-colour: rgb(121, 152, 183);
+  --grid-border-colour: rgb(53, 57, 114);
+  --grid-size: 40px;
+  --ship-colour: rgb(65, 76, 165);
+  --hit-colour: rgb(242, 92, 92);
+  --miss-colour: rgb(105, 105, 105);
+}
+
+* {
+  font-family: "Lato", "sans-serif";
+}
+
+.container {
+  display: flex;
+  gap: 2%;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.board-grid {
+  position: relative;
+  min-width: calc(var(--grid-size)*10);
+  min-height: calc(var(--grid-size)*10);
+  display: none;
+  grid-template:repeat(10, 1fr) / repeat(10, 1fr); 
+  gap: 2px;
+}
+
+.start-container {
+  height: 40svh;
+  width: 100svw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 10%;
+}
+
+.start-container>button {
+  width: 50px;
+}
+
+.grid-item {
+  background-color: var(--grid-item-colour);
+  opacity: 0.35;
+  border: solid var(--grid-border-colour) 0.15rem;
+  transition: background-color 0.2s;
+}
+
+.grid-item.ship-placed {
+  opacity: 1;
+}
+
+.ships-container {
+  margin-top: 10px;
+  display: flex;
+  gap: 2%;
+  justify-content: space-around;
+}
+
+.ships {
+  width: calc(var(--grid-size)*10);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content:space-around;
+}
+
+.ship {
+  display: flex;
+  border: var(--ship-colour);
+}
+
+.ship>div {
+  background-color: var(--ship-colour);
+  width: calc(var(--grid-size) - 1px);
+  height: calc(var(--grid-size) - 1px);
+}
+
+.hidden {
+  visibility: hidden;
+  padding: 0;
+  opacity: 0;
+  height: 0;
+  transition: background-color 2s ease;
+}
+
+.player1-cover, .player2-cover  {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: #3b3b3b;
+  opacity: 0.4;
+  z-index: 99;
+  transition: background-color 2s ease;
+}
+
+.grid-item.hit {
+  opacity: 0.8;
+  background-color: var(--hit-colour);
+  border: none;
+}
+
+.grid-item.miss {
+  opacity: 0.8;
+  background-color: var(--miss-colour);
+  border: none;
+}
+
+.output, .error {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}
+.error {
+  color: red;
+}
