@@ -5,6 +5,7 @@ import {
   switchCurrentPlayer,
   isSecondPlayerComputer,
   setComputerShips,
+  currentPlayer,
 } from "./main";
 
 const playerOneContainer = document.getElementById("player1-container");
@@ -16,6 +17,8 @@ const startButton = document.getElementById("start");
 const startContainer = document.querySelector(".start-container");
 const playerOneText = document.querySelector(".player1-ships-text");
 const playerTwoText = document.querySelector(".player2-ships-text");
+const playerOneCover = document.querySelector(".player1-cover");
+const playerTwoCover = document.querySelector(".player2-cover");
 
 const ships = document.querySelectorAll(".ship");
 let draggedShip;
@@ -24,9 +27,9 @@ let draggedPartValue;
 let playerOneShipsPlaced = false;
 
 //Clicking start will draw the board and add listeners
-startButton.addEventListener("click", startGame);
+startButton.addEventListener("click", intializeGame);
 
-function startGame() {
+function intializeGame() {
   initiatePlayers(
     document.querySelector('input[name="player-option"]:checked').value
   );
@@ -171,10 +174,23 @@ function drawShipOnGrid(grid, y, x, length, orientation) {
   });
 }
 
+function removeShipsFromGrid(grid) {
+  Array.from(grid.querySelectorAll(".ship-placed")).forEach((gridItem) =>
+    gridItem.classList.remove("ship-placed")
+  );
+}
+
+function toggleCover(cover) {
+  cover.classList.toggle("hidden");
+}
+
 function handleAllShipsPlaced() {
   if (!playerOneShipsPlaced && !playerOneShips.querySelector(".ship")) {
     playerOneShipsPlaced = true;
-    removeGridDragListeners(playerOneContainer.querySelectorAll(".grid-item"));
+    const playerOneGridSpaces =
+      playerOneContainer.querySelectorAll(".grid-item");
+
+    removeGridDragListeners(playerOneGridSpaces);
     toggleVisibility(playerOneShips, playerOneText);
 
     if (!isSecondPlayerComputer()) {
@@ -182,18 +198,18 @@ function handleAllShipsPlaced() {
         playerTwoContainer.querySelectorAll(".grid-item");
       addGridDragListeners(playerTwoGridSpaces);
       toggleVisibility(playerTwoShips, playerTwoText);
+      removeShipsFromGrid(playerOneContainer);
       switchCurrentPlayer();
     } else {
       console.log("player One done");
-      const shipLengths = [...playerTwoShips.querySelectorAll(".ship")].map(
-        (node) => node.children.length
-      );
       setComputerShips();
     }
   }
 
   if (!playerTwoShips.querySelector(".ship")) {
     toggleVisibility(playerTwoShips, playerTwoText);
+    removeShipsFromGrid(playerTwoContainer);
     console.log("starting game");
+    console.log(currentPlayer);
   }
 }

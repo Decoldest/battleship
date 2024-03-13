@@ -2,7 +2,9 @@
   --grid-item-colour: rgb(121, 152, 183);
   --grid-border-colour: rgb(53, 57, 114);
   --grid-size: 40px;
-  --ship-colour: rgb(160, 102, 71);
+  --ship-colour: rgb(65, 76, 165);
+  --hit-colour: rgb(242, 92, 92);
+  --miss-colour: rgb(168, 168, 168);
 }
 
 .container {
@@ -13,6 +15,7 @@
 }
 
 .board-grid {
+  position: relative;
   min-width: calc(var(--grid-size)*10);
   min-height: calc(var(--grid-size)*10);
   display: none;
@@ -75,5 +78,13 @@
   height: 0;
 }
 
-
-
+.player1-cover, .player2-cover  {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: #a1a1a1;
+  opacity: 0.8;
+  z-index: 2;
+}

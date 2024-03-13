@@ -121,7 +121,6 @@ let Player = function (gameboard, ai = false) {
 
         // Attempt to place the ship on the gameboard
         isValidPlacement = gameboard.placeShip(y, x, shipLength, orientation);
-        console.log(`placement va;lid: ${isValidPlacement}`);
       }
     }
   };

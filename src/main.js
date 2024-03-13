@@ -8,7 +8,7 @@ const playerTwoBoard = Gameboard(BOARD_SIZE);
 
 let playerOne;
 let playerTwo;
-let currentPlayer;
+export let currentPlayer;
 
 export function initiatePlayers(playerTwoOption) {
   //Player one is always regular
