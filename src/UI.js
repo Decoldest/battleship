@@ -20,6 +20,7 @@ const playerOneText = document.querySelector(".player1-ships-text");
 const playerTwoText = document.querySelector(".player2-ships-text");
 const playerOneCover = document.querySelector(".player1-cover");
 const playerTwoCover = document.querySelector(".player2-cover");
+const output = document.querySelector(".output");
 
 const ships = document.querySelectorAll(".ship");
 let draggedShip;
@@ -44,12 +45,18 @@ function intializeGame() {
   const playerOneGridSpaces = playerOneContainer.querySelectorAll(".grid-item");
 
   addGridDragListeners(playerOneGridSpaces);
-  toggleVisibility(playerOneShips, playerOneText);
+  toggleVisibility(
+    playerOneShips,
+    playerOneText,
+    "Player One, place your ships"
+  );
+  output.classList.remove("hidden");
 }
 
-function toggleVisibility(shipsElement, textElement) {
+function toggleVisibility(shipsElement, textElement, text) {
   shipsElement.classList.toggle("hidden");
   textElement.classList.toggle("hidden");
+  output.textContent = text;
 }
 
 //Draw grid and add listener
@@ -68,7 +75,8 @@ const setSquares = (container) => {
 function addGridButtonListener(grid) {
   grid.addEventListener("click", (event) => {
     const gridItem = event.target.closest(".grid-item");
-    if (!gridItem ||
+    if (
+      !gridItem ||
       gridItem.classList.contains("hit") ||
       gridItem.classList.contains("miss")
     ) {
@@ -95,15 +103,17 @@ function handleAttack(attack, gridItem) {
 }
 
 function setSecondPlayerTurn() {
-  if(isSecondPlayerComputer()){
-    secondPlayerTurn = () => { 
+  if (isSecondPlayerComputer()) {
+    secondPlayerTurn = () => {
       let computerTurn = playerAttack(null, null);
       console.log(computerTurn);
-      const [y,x] = computerTurn.coordinates.split(",");
-      const gridItem = playerOneContainer.querySelector(`button[value="${y},${x}"]`);
+      const [y, x] = computerTurn.coordinates.split(",");
+      const gridItem = playerOneContainer.querySelector(
+        `button[value="${y},${x}"]`
+      );
       handleAttack(computerTurn.didMoveHit, gridItem);
       switchCurrentPlayer();
-    }
+    };
   } else {
     secondPlayerTurn = toggleCovers;
   }
@@ -238,7 +248,11 @@ function handleAllShipsPlaced() {
       const playerTwoGridSpaces =
         playerTwoContainer.querySelectorAll(".grid-item");
       addGridDragListeners(playerTwoGridSpaces);
-      toggleVisibility(playerTwoShips, playerTwoText);
+      toggleVisibility(
+        playerTwoShips,
+        playerTwoText,
+        "Player Two, place your ships"
+      );
       removeShipsFromGrid(playerOneContainer);
       switchCurrentPlayer();
     } else {
@@ -249,7 +263,7 @@ function handleAllShipsPlaced() {
   }
 
   if (!playerTwoShips.querySelector(".ship")) {
-    toggleVisibility(playerTwoShips, playerTwoText);
+    toggleVisibility(playerTwoShips, playerTwoText, "Player One's turn");
     removeShipsFromGrid(playerTwoContainer);
     switchCurrentPlayer();
     addGridButtonListener(playerTwoContainer);
@@ -260,6 +274,8 @@ function handleAllShipsPlaced() {
 function handleGameOver() {
   const gameWinner = isOver();
   if (gameWinner) {
-    console.log(gameWinner);
+    playerOneCover.classList.remove("hidden");
+    playerTwoCover.classList.remove("hidden");
+    output.textContent = `${gameWinner} wins`;
   }
 }

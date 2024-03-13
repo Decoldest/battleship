@@ -104,3 +104,10 @@
   background-color: var(--miss-colour);
   border: none;
 }
+
+.output {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+  font-family: "Lato", "sans-serif";
+}

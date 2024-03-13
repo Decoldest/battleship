@@ -64,10 +64,10 @@ export function isOver() {
   console.log(playerOneBoard);
   console.log(playerTwoBoard);
   if (playerOneBoard.areAllSunk()) {
-    return playerTwo.isAi ? "Computer" : "Player 2";
+    return playerTwo.isAi ? "Computer" : "Player Two";
   }
   if (playerTwoBoard.areAllSunk()) {
-    return "Player 1"
+    return "Player One"
   }
   return false;
 }
