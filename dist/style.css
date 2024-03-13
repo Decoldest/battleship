@@ -78,6 +78,7 @@
   padding: 0;
   opacity: 0;
   height: 0;
+  transition: background-color 2s ease;
 }
 
 .player1-cover, .player2-cover  {
@@ -88,15 +89,18 @@
   left: 0;
   background: #3b3b3b;
   opacity: 0.4;
-  z-index: 2;
+  z-index: 99;
+  transition: background-color 2s ease;
 }
 
 .grid-item.hit {
   opacity: 0.8;
   background-color: var(--hit-colour);
+  border: none;
 }
 
 .grid-item.miss {
   opacity: 0.8;
   background-color: var(--miss-colour);
+  border: none;
 }

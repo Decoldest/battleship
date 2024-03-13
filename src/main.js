@@ -60,8 +60,16 @@ const startGame = () => {
   playRound();
 };
 
-function isOver(playerOneBoard, playerTwoBoard) {
-  return playerOneBoard.areAllSunk() || playerTwoBoard.areAllSunk();
+export function isOver() {
+  console.log(playerOneBoard);
+  console.log(playerTwoBoard);
+  if (playerOneBoard.areAllSunk()) {
+    return playerTwo.isAi ? "Computer" : "Player 2";
+  }
+  if (playerTwoBoard.areAllSunk()) {
+    return "Player 1"
+  }
+  return false;
 }
 
 export function isSecondPlayerComputer() {

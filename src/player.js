@@ -21,13 +21,11 @@ let Player = function (gameboard, ai = false) {
     let { y, x } = !targetQueue.length ? randomMove() : attackSpacesNear();
 
     computerAttackList.add(`${y},${x}`);
-    console.log(computerAttackList);
     let didMoveHit = enemyBoard.receiveAttack(y, x);
     if (didMoveHit) {
       handleHit(y, x);
-      return true;
     }
-    return false;
+    return [`${y},${x}`, didMoveHit];
   };
 
   //Attacks at random with bias towards the middle of the board

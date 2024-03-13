@@ -6,6 +6,7 @@ import {
   isSecondPlayerComputer,
   setComputerShips,
   playerAttack,
+  isOver,
 } from "./main";
 
 const playerOneContainer = document.getElementById("player1-container");
@@ -25,14 +26,17 @@ let draggedShip;
 let draggedShipLength;
 let draggedPartValue;
 let playerOneShipsPlaced = false;
+let secondPlayerTurn;
 
 //Clicking start will draw the board and add listeners
 startButton.addEventListener("click", intializeGame);
 
+//Draws grid and adds necessary listeners
 function intializeGame() {
   initiatePlayers(
     document.querySelector('input[name="player-option"]:checked').value
   );
+  setSecondPlayerTurn();
   showPlayerGrids();
   setSquares(playerOneContainer);
   setSquares(playerTwoContainer);
@@ -55,28 +59,51 @@ const setSquares = (container) => {
       const element = document.createElement("button");
       element.classList.add("grid-item");
       element.value = `${i},${j}`;
-      addGridButtonListener(element);
       container.appendChild(element);
     }
   }
 };
 
 //Adds grid coordinate to grid element
-function addGridButtonListener(gridItem) {
-  gridItem.addEventListener("click", () => {
-    const [y, x] = gridItem.value.split(",");
-    const attack = playerAttack(y, x);
-    handleAttack(attack, gridItem);
+function addGridButtonListener(grid) {
+  grid.addEventListener("click", (event) => {
+    const gridItem = event.target.closest(".grid-item");
+    if (!gridItem ||
+      gridItem.classList.contains("hit") ||
+      gridItem.classList.contains("miss")
+    ) {
+      //update text
+      return;
+    }
+    if (gridItem) {
+      const [y, x] = gridItem.value.split(",");
+      const attack = playerAttack(y, x);
+      handleAttack(attack, gridItem);
+      switchCurrentPlayer();
+      secondPlayerTurn();
+    }
   });
 }
 
 function handleAttack(attack, gridItem) {
-  console.log(attack);
   if (attack) {
-    console.log("Adding 'hit' class to grid item:", gridItem);
     gridItem.classList.add("hit");
   } else {
     gridItem.classList.add("miss");
+  }
+  handleGameOver();
+}
+
+function setSecondPlayerTurn() {
+  if(isSecondPlayerComputer()){
+    secondPlayerTurn = () => { 
+      let computerTurn = playerAttack(null, null);
+      console.log(computerTurn);
+      handleAttack(attack, gridItem);
+      switchCurrentPlayer();
+    }
+  } else {
+    secondPlayerTurn = toggleCovers;
   }
 }
 
@@ -185,13 +212,14 @@ function drawShipOnGrid(grid, y, x, length, orientation) {
 }
 
 function removeShipsFromGrid(grid) {
-  Array.from(grid.querySelectorAll(".ship-placed")).forEach((gridItem) =>
-    gridItem.classList.remove("ship-placed")
-  );
+  Array.from(grid.querySelectorAll(".ship-placed")).forEach((gridItem) => {
+    gridItem.classList.remove("ship-placed");
+  });
 }
 
-function toggleCover(cover) {
-  cover.classList.toggle("hidden");
+function toggleCovers() {
+  playerOneCover.classList.toggle("hidden");
+  playerTwoCover.classList.toggle("hidden");
 }
 
 function handleAllShipsPlaced() {
@@ -204,6 +232,7 @@ function handleAllShipsPlaced() {
     toggleVisibility(playerOneShips, playerOneText);
 
     if (!isSecondPlayerComputer()) {
+      toggleCovers();
       const playerTwoGridSpaces =
         playerTwoContainer.querySelectorAll(".grid-item");
       addGridDragListeners(playerTwoGridSpaces);
@@ -211,15 +240,24 @@ function handleAllShipsPlaced() {
       removeShipsFromGrid(playerOneContainer);
       switchCurrentPlayer();
     } else {
-      console.log("player One done");
       setComputerShips();
+      playerTwoCover.classList.toggle("hidden");
+      addGridButtonListener(playerTwoContainer);
     }
   }
 
   if (!playerTwoShips.querySelector(".ship")) {
     toggleVisibility(playerTwoShips, playerTwoText);
     removeShipsFromGrid(playerTwoContainer);
-    toggleCover(playerOneCover);
     switchCurrentPlayer();
+    addGridButtonListener(playerTwoContainer);
+    addGridButtonListener(playerOneContainer);
+  }
+}
+
+function handleGameOver() {
+  const gameWinner = isOver();
+  if (gameWinner) {
+    console.log(gameWinner);
   }
 }
