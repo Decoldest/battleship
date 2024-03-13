@@ -99,7 +99,9 @@ function setSecondPlayerTurn() {
     secondPlayerTurn = () => { 
       let computerTurn = playerAttack(null, null);
       console.log(computerTurn);
-      handleAttack(attack, gridItem);
+      const [y,x] = computerTurn.coordinates.split(",");
+      const gridItem = playerOneContainer.querySelector(`button[value="${y},${x}"]`);
+      handleAttack(computerTurn.didMoveHit, gridItem);
       switchCurrentPlayer();
     }
   } else {

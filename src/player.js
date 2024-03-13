@@ -25,7 +25,7 @@ let Player = function (gameboard, ai = false) {
     if (didMoveHit) {
       handleHit(y, x);
     }
-    return [`${y},${x}`, didMoveHit];
+    return { coordinates: `${y},${x}`, didMoveHit };
   };
 
   //Attacks at random with bias towards the middle of the board
@@ -104,7 +104,7 @@ let Player = function (gameboard, ai = false) {
   }
 
   player.computerAddShips = function () {
-  console.log("LEN ", computerShips.length);
+    console.log("LEN ", computerShips.length);
 
     while (computerShips.length) {
       const shipLength = computerShips.pop();
