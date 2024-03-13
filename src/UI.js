@@ -89,8 +89,9 @@ function addGridButtonListener(grid) {
       const [y, x] = gridItem.value.split(",");
       const attack = playerAttack(y, x);
       handleAttack(attack, gridItem);
-      switchCurrentPlayer();
+      output.textContent = `${switchCurrentPlayer()}'s Turn`;
       secondPlayerTurn();
+      handleGameOver();
     }
   });
 }
@@ -101,7 +102,6 @@ function handleAttack(attack, gridItem) {
   } else {
     gridItem.classList.add("miss");
   }
-  handleGameOver();
 }
 
 function setSecondPlayerTurn() {
@@ -113,8 +113,11 @@ function setSecondPlayerTurn() {
       const gridItem = playerOneContainer.querySelector(
         `button[value="${y},${x}"]`
       );
-      handleAttack(computerTurn.didMoveHit, gridItem);
-      switchCurrentPlayer();
+      setTimeout(() => {
+        handleAttack(computerTurn.didMoveHit, gridItem);
+        switchCurrentPlayer();
+        output.textContent = "Player One's Turn";
+      }, 250);
     };
   } else {
     secondPlayerTurn = toggleCovers;
@@ -268,7 +271,11 @@ function handleAllShipsPlaced() {
   }
 
   if (!playerTwoShips.querySelector(".ship")) {
-    toggleVisibility(playerTwoShips, playerTwoText, "Fight to the death");
+    toggleVisibility(
+      playerTwoShips,
+      playerTwoText,
+      "Fight to the death. Player One shoots first"
+    );
     removeShipsFromGrid(playerTwoContainer);
     switchCurrentPlayer();
     addGridButtonListener(playerTwoContainer);
@@ -288,7 +295,7 @@ function handleGameOver() {
 function showError(text) {
   error.textContent = text;
   error.classList.remove("hidden");
-  setTimeout(hideError, 3000);
+  setTimeout(hideError, 2000);
 }
 
 function hideError() {

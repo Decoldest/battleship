@@ -45,20 +45,10 @@ export function playerAttack(y, x) {
   }
 }
 
-function playRound() {
-  while (!isOver(playerOneBoard, playerTwoBoard)) {
-    playerAttack(currentPlayer);
-    switchCurrentPlayer();
-  }
-}
-
 export function switchCurrentPlayer() {
   currentPlayer = currentPlayer === playerOne ? playerTwo : playerOne;
+  return currentPlayer === playerOne ? "Player One" : "Player Two";
 }
-
-const startGame = () => {
-  playRound();
-};
 
 export function isOver() {
   console.log(playerOneBoard);

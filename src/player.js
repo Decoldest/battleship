@@ -28,41 +28,20 @@ let Player = function (gameboard, ai = false) {
     return { coordinates: `${y},${x}`, didMoveHit };
   };
 
-  //Attacks at random with bias towards the middle of the board
   function randomMove() {
-    const sigma = 1;
-
-    // Function to generate random number with Gaussian distribution
-    function randn_bm() {
-      let u = 0,
-        v = 0;
-      while (u === 0) u = Math.random(); // Converting [0,1) to (0,1)
-      while (v === 0) v = Math.random();
-      return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
-    }
-
-    // Calculate mean for Gaussian distribution (middle of the board)
-    const middle = Math.floor(boardDimension / 2);
-
-    // Generate random numbers with Gaussian distribution for row and column
-    let y = Math.round(middle + randn_bm() * sigma);
-    let x = Math.round(middle + randn_bm() * sigma);
-
-    // Ensure that the generated position is within the board boundaries
-    y = Math.min(boardDimension - 1, Math.max(0, y));
-    x = Math.min(boardDimension - 1, Math.max(0, x));
-
+    let y = Math.floor(Math.random() * boardDimension);
+    let x = Math.floor(Math.random() * boardDimension);
+  
     // Ensure that the generated position is not already attacked
     while (computerAttackList.has(`${y},${x}`)) {
-      // Generate new random numbers with Gaussian distribution
-      y = Math.round(middle + randn_bm() * sigma);
-      x = Math.round(middle + randn_bm() * sigma);
-      // Ensure that the new position is within the board boundaries
-      y = Math.min(boardDimension - 1, Math.max(0, y));
-      x = Math.min(boardDimension - 1, Math.max(0, x));
+      // Generate new random coordinates
+      y = Math.floor(Math.random() * boardDimension);
+      x = Math.floor(Math.random() * boardDimension);
     }
+    
     return { y, x };
   }
+  
 
   function handleHit(y, x) {
     targetedShip = gameboard.board[y][x]; //Update the current targeted ship and queue
