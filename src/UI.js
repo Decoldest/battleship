@@ -21,6 +21,7 @@ const playerTwoText = document.querySelector(".player2-ships-text");
 const playerOneCover = document.querySelector(".player1-cover");
 const playerTwoCover = document.querySelector(".player2-cover");
 const output = document.querySelector(".output");
+const error = document.querySelector(".error");
 
 const ships = document.querySelectorAll(".ship");
 let draggedShip;
@@ -80,7 +81,8 @@ function addGridButtonListener(grid) {
       gridItem.classList.contains("hit") ||
       gridItem.classList.contains("miss")
     ) {
-      //update text
+      showError("Invalid coordinate. Please try again");
+
       return;
     }
     if (gridItem) {
@@ -105,8 +107,8 @@ function handleAttack(attack, gridItem) {
 function setSecondPlayerTurn() {
   if (isSecondPlayerComputer()) {
     secondPlayerTurn = () => {
+      output.textContent = "Computer's Turn";
       let computerTurn = playerAttack(null, null);
-      console.log(computerTurn);
       const [y, x] = computerTurn.coordinates.split(",");
       const gridItem = playerOneContainer.querySelector(
         `button[value="${y},${x}"]`
@@ -203,6 +205,8 @@ function handleAddShip(checkPlaced, grid, y, x, length, orientation) {
   if (checkPlaced) {
     draggedShip.remove();
     drawShipOnGrid(grid, y, x, length, orientation);
+  } else {
+    showError("Invalid placement. Please place ships carefully");
   }
 }
 
@@ -258,12 +262,13 @@ function handleAllShipsPlaced() {
     } else {
       setComputerShips();
       playerTwoCover.classList.toggle("hidden");
+      output.textContent = "Beat the computer";
       addGridButtonListener(playerTwoContainer);
     }
   }
 
   if (!playerTwoShips.querySelector(".ship")) {
-    toggleVisibility(playerTwoShips, playerTwoText, "Player One's turn");
+    toggleVisibility(playerTwoShips, playerTwoText, "Fight to the death");
     removeShipsFromGrid(playerTwoContainer);
     switchCurrentPlayer();
     addGridButtonListener(playerTwoContainer);
@@ -278,4 +283,14 @@ function handleGameOver() {
     playerTwoCover.classList.remove("hidden");
     output.textContent = `${gameWinner} wins`;
   }
+}
+
+function showError(text) {
+  error.textContent = text;
+  error.classList.remove("hidden");
+  setTimeout(hideError, 3000);
+}
+
+function hideError() {
+  error.classList.add("hidden");
 }

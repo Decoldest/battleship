@@ -7,6 +7,10 @@
   --miss-colour: rgb(105, 105, 105);
 }
 
+* {
+  font-family: "Lato", "sans-serif";
+}
+
 .container {
   display: flex;
   gap: 2%;
@@ -105,9 +109,11 @@
   border: none;
 }
 
-.output {
+.output, .error {
   display: flex;
   justify-content: center;
   margin: 10px 0;
-  font-family: "Lato", "sans-serif";
+}
+.error {
+  color: red;
 }
